@@ -14,17 +14,20 @@
       </v-carousel-item>
     </v-carousel>
     <div style="font-size: 1.25rem; margin: 10px">最多播放</div>
-    <video-show-elem
-      v-for="(item, i) in hotVideoList"
-      :key="i"
-      :imgurl="$store.state.url + 'image/' + item.id"
-      :time="'2022-5-3'"
-      :title="item.title"
-      :showtimes="item.playtimes"
-      :likes="item.likes"
-      :stars="item.stars"
-      @click.native="$router.push('video/' + item.id)"
-    ></video-show-elem>
+    <v-row>
+      <video-show-elem
+        v-for="(item, i) in hotVideoList"
+        :key="i"
+        :imgurl="$store.state.url + 'image/' + item.id"
+        :time="item.time"
+        :title="item.title"
+        :showtimes="item.playtimes"
+        :likes="item.likes"
+        :stars="item.stars"
+        :isCollection="false"
+        @click.native="$router.push('/video/' + item.id)"
+      ></video-show-elem>
+    </v-row>
   </div>
 </template>
 

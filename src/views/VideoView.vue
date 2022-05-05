@@ -12,7 +12,9 @@
       <v-btn plain :color="isLiked ? 'primary' : ''" @click="likeBtnClicked()"
         ><v-icon>mdi-thumb-up</v-icon>&nbsp;&nbsp;{{ likes }}
       </v-btn>
-      <v-btn plain><v-icon size="28">mdi-star</v-icon>&nbsp;{{ stars }} </v-btn>
+      <v-btn plain :color="isStard ? 'primary' : ''" @click="starBtnClicked()"
+        ><v-icon size="28">mdi-star</v-icon>&nbsp;{{ stars }}
+      </v-btn>
     </div>
   </div>
 </template>
@@ -25,6 +27,11 @@ import {
   addLike,
   delLike,
 } from "../network/video";
+import {
+  addUserStarVideo,
+  delUserStarVideo,
+  checkUserStar,
+} from "../network/star";
 export default {
   data: () => ({
     index: -1,
@@ -35,11 +42,17 @@ export default {
     likes: 0,
     stars: 0,
     isLiked: false,
+    isStard: false,
   }),
   watch: {
     isLiked() {
       getVideoInfo({ id: this.index }).then((res) => {
         this.likes = res.data.likes;
+      });
+    },
+    isStard() {
+      getVideoInfo({ id: this.index }).then((res) => {
+        this.stars = res.data.stars;
       });
     },
   },
@@ -73,6 +86,19 @@ export default {
         this.isLiked = true;
       } else {
         this.isLiked = false;
+      }
+    });
+    checkUserStar({
+      account: localStorage.getItem("account"),
+      token: localStorage.getItem("token"),
+      id: this.index,
+    }).then((res) => {
+      if (res.data.status == 444) {
+        this.$root.$emit("errorToken");
+      } else if (res.data.status == 1) {
+        this.isStard = true;
+      } else {
+        this.isStard = false;
       }
     });
   },
@@ -125,6 +151,39 @@ export default {
       } else {
         this.addLikeView();
       }
+    },
+    starBtnClicked() {
+      if (this.isStard) {
+        this.delUserStarVideoView();
+      } else {
+        this.addUserStarVideoView();
+      }
+    },
+    addUserStarVideoView() {
+      addUserStarVideo({
+        account: localStorage.getItem("account"),
+        token: localStorage.getItem("token"),
+        id: this.index,
+      }).then((res) => {
+        if (res.data.status == 444) {
+          this.$root.$emit("errorToken");
+        } else {
+          this.isStard = true;
+        }
+      });
+    },
+    delUserStarVideoView() {
+      delUserStarVideo({
+        account: localStorage.getItem("account"),
+        token: localStorage.getItem("token"),
+        id: this.index,
+      }).then((res) => {
+        if (res.data.status == 444) {
+          this.$root.$emit("errorToken");
+        } else {
+          this.isStard = false;
+        }
+      });
     },
   },
 };

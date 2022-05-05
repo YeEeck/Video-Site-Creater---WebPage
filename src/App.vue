@@ -125,6 +125,7 @@
 <script>
 import { getTitle, login, getUserInfo } from "./network/users";
 import { getVideoInfo } from "./network/video";
+import { getUserStar } from "./network/star";
 import DialogLogin from "./components/DialogComponentLogin.vue";
 import DialogReg from "./components/DialogComponentReg.vue";
 export default {
@@ -155,6 +156,7 @@ export default {
     );
     getTitle().then((res) => {
       this.title = res.data;
+      document.title = this.title;
     });
     let account = localStorage.getItem("account");
     let password = localStorage.getItem("password");
@@ -175,9 +177,12 @@ export default {
     }
   },
   watch: {
-    group(val) {
+    group(val, old) {
+      let then = this;
       if (val == undefined) {
-        location.reload();
+        this.$nextTick(() => {
+          then.group = old;
+        });
       }
     },
     $route: {
@@ -196,6 +201,13 @@ export default {
           getVideoInfo({ id: this.routeText.split("/")[2] }).then((res) => {
             this.title = res.data.title;
           });
+        } else if (this.routeText == "/collections") {
+          this.group = 2;
+          this.showMenuBtn = true;
+          this.showScanBtn = true;
+          getTitle().then((res) => {
+            this.title = res.data;
+          });
         }
       },
       // 深度观察监听
@@ -213,6 +225,14 @@ export default {
     drawerGroupBtnClicked() {
       if (this.group == 0) {
         this.$router.push("/");
+      } else if (this.group == 2) {
+        this.$router.push("/collections");
+      } else if (this.group == 3) {
+        getUserStar({ account: localStorage.getItem("account") }).then(
+          (res) => {
+            this.$router.push("/collection/" + res.data.star_box_id);
+          }
+        );
       }
     },
     loginFinish() {
