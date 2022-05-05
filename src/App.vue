@@ -208,6 +208,8 @@ export default {
           getTitle().then((res) => {
             this.title = res.data;
           });
+        } else if (this.routeText.split("/")[1] == "collection") {
+          this.group = -1;
         }
       },
       // 深度观察监听

@@ -16,10 +16,13 @@
         ><v-icon size="28">mdi-star</v-icon>&nbsp;{{ stars }}
       </v-btn>
     </div>
+    <v-divider style="margin-top: 1rem; margin-bottom: 1rem"></v-divider>
+    <comment-block :index="parseInt(index)"></comment-block>
   </div>
 </template>
 
 <script>
+import CommentBlock from "../components/videoView/CommentBlock.vue";
 import {
   getVideoInfo,
   playVideo,
@@ -44,6 +47,9 @@ export default {
     isLiked: false,
     isStard: false,
   }),
+  components: {
+    CommentBlock,
+  },
   watch: {
     isLiked() {
       getVideoInfo({ id: this.index }).then((res) => {
@@ -195,6 +201,8 @@ export default {
 }
 .video-title {
   margin-bottom: 10px;
+  margin-top: 10px;
+  font-size: 1.25rem;
 }
 .video-action-group {
   display: flex;
