@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="500" transition="dialog-top-transition">
+  <v-dialog v-model="dialog" width="500" transition="fade-transition">
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon v-if="showScanBtn" v-bind="attrs" v-on="on">
         <v-icon>mdi-magnify</v-icon>

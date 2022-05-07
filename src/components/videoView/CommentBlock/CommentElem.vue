@@ -14,7 +14,7 @@
         <v-spacer></v-spacer>
 
         <v-dialog
-          transition="dialog-bottom-transition"
+          transition="fade-transition"
           v-model="dialog"
           :width="_isMobile() ? '100%' : '30%'"
         >
