@@ -35,17 +35,18 @@
         </v-card>
       </v-dialog>
     </div>
-    <comment-elem
-      v-for="(item, i) in commentList"
-      :key="i"
-      :commentId="item.comment_id"
-      :name="item.name"
-      :time="item.time"
-      :text="item.content"
-      :isSelf="item.isSelf"
-      v-show="commentLength != 0"
-      @updateRequest="updateComment()"
-    ></comment-elem>
+    <div v-if="commentLength != 0">
+      <comment-elem
+        v-for="item in commentList"
+        :key="item.comment_id"
+        :commentId="item.comment_id"
+        :name="item.name"
+        :time="item.time"
+        :text="item.content"
+        :isSelf="item.isSelf"
+        @updateRequest="updateComment()"
+      ></comment-elem>
+    </div>
   </div>
 </template>
 
@@ -67,13 +68,12 @@ export default {
   mounted() {
     setTimeout(() => {
       this.updateComment();
-    }, 500);
+    }, 300);
   },
   methods: {
     updateComment() {
       getCommentFromVideo({ video_id: this.index }).then((res) => {
         let data = res.data;
-        this.commentLength = data.length;
         for (let index = 0; index < data.length; index++) {
           const element = data[index];
           if (element.user_id == localStorage.getItem("account")) {
@@ -83,7 +83,10 @@ export default {
           }
           getUserInfo({ account: element.user_id }).then((res) => {
             data[index].name = res.data.name;
-            this.commentList = data;
+            if (index == data.length - 1) {
+              this.commentLength = data.length;
+              this.commentList = data;
+            }
           });
         }
       });

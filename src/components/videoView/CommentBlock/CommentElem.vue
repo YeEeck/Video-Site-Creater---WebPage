@@ -6,9 +6,7 @@
           <v-img :src="require('../../../assets/user_defalut.jpg')"></v-img>
         </v-avatar>
         <div class="d-flex flex-column">
-          <div class="text-h6">
-            {{ name }}
-          </div>
+          <div class="text-h6" v-text="name"></div>
           <div class="text-caption">
             {{ timeStamp2time(time) }}
           </div>
@@ -109,3 +107,5 @@ export default {
   },
 };
 </script>
+
+<style scope></style>

@@ -21,11 +21,12 @@
           <v-icon v-show="showMenuBtn">mdi-menu</v-icon>
         </v-app-bar-nav-icon>
 
-        <v-toolbar-title>{{ title }}</v-toolbar-title>
+        <v-toolbar-title>{{ title }} </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon v-if="showScanBtn">
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+        <search-elem
+          :showScanBtn="showScanBtn"
+          :key="showScanBtn"
+        ></search-elem>
       </v-app-bar>
 
       <v-navigation-drawer v-model="drawer" app temporary>
@@ -128,8 +129,9 @@ import { getVideoInfo } from "./network/video";
 import { getUserStar } from "./network/star";
 import DialogLogin from "./components/DialogComponentLogin.vue";
 import DialogReg from "./components/DialogComponentReg.vue";
+import SearchElem from "./components/home/SearchElem.vue";
 export default {
-  components: { DialogLogin, DialogReg },
+  components: { DialogLogin, DialogReg, SearchElem },
   data: () => ({
     title: "",
     drawer: false,
@@ -208,7 +210,7 @@ export default {
           getTitle().then((res) => {
             this.title = res.data;
           });
-        } else if (this.routeText.split("/")[1] == "collection") {
+        } else {
           this.group = -1;
         }
       },
