@@ -59,7 +59,7 @@ export default {
     commentList: [],
     dialog: false,
     commentInput: "",
-    commentLength: -1,
+    commentLength: 0,
   }),
   components: {
     CommentElem,
@@ -74,6 +74,9 @@ export default {
     updateComment() {
       getCommentFromVideo({ video_id: this.index }).then((res) => {
         let data = res.data;
+        if (data.length == 0) {
+          this.commentLength = 0;
+        }
         for (let index = 0; index < data.length; index++) {
           const element = data[index];
           if (element.user_id == localStorage.getItem("account")) {

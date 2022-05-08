@@ -38,7 +38,7 @@ export default {
     index: -1,
     totalLength: 0,
     page: 1,
-    limit: 10,
+    limit: 6,
   }),
   watch: {
     page(val) {

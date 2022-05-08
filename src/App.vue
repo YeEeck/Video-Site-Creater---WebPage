@@ -18,7 +18,12 @@
       <v-app-bar app>
         <v-app-bar-nav-icon @click.stop="navIconClicked">
           <v-icon v-show="!showMenuBtn">mdi-arrow-left</v-icon>
-          <v-icon v-show="showMenuBtn">mdi-menu</v-icon>
+          <v-icon v-show="showMenuBtn && !$store.state.logined"
+            >mdi-menu</v-icon
+          >
+          <v-avatar size="32" v-show="showMenuBtn && $store.state.logined">
+            <v-img :src="require('./assets/user_defalut.jpg')"></v-img>
+          </v-avatar>
         </v-app-bar-nav-icon>
 
         <v-toolbar-title>{{ title }} </v-toolbar-title>

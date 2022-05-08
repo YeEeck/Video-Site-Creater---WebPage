@@ -19,7 +19,14 @@
           :width="_isMobile() ? '100%' : '30%'"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon class="mr-2" color="grey" v-bind="attrs" v-on="on">
+            <v-btn
+              icon
+              v-show="isSelf"
+              class="mr-2"
+              color="grey"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </template>
